@@ -2,12 +2,13 @@
 // Shows shot/scene/take progress, print rate, and the next slate.
 
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '@/data/db';
 import { rollup } from '@/features/stats';
 
 export default function DashboardView() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const pid = Number(id);
   const project = useLiveQuery(() => db.projects.get(pid), [pid]);
   const shots = useLiveQuery(() => db.shots.where('projectId').equals(pid).sortBy('order'), [pid]) ?? [];
@@ -21,6 +22,7 @@ export default function DashboardView() {
   return (
     <div className="page">
       <div className="topbar">
+        <button className="back-btn" onClick={() => navigate(`/p/${pid}`)} aria-label="Go back">← <span>Back</span></button>
         <span className="brand">SLATE</span>
         <span className="dim">{project?.title ?? '…'} — Dashboard</span>
       </div>

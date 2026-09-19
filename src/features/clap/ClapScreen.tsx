@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '@/data/db';
 import { fireClap } from '@/lib/clap';
 import { msToTC } from '@/lib/timecode';
@@ -11,6 +11,7 @@ import type { Take } from '@/data/types';
 
 export default function ClapScreen() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const pid = Number(id);
   const project = useLiveQuery(() => db.projects.get(pid), [pid]);
   const scenes = useLiveQuery(() => db.scenes.where('projectId').equals(pid).sortBy('order'), [pid]) ?? [];
@@ -67,6 +68,7 @@ export default function ClapScreen() {
   return (
     <div className="page clap-page">
       <div className="topbar clap-topbar">
+        <button className="back-btn" onClick={() => navigate(`/p/${pid}`)} aria-label="Go back">← <span>Back</span></button>
         <span className="brand">SLATE / CLAPPER</span>
         <span className="dim">{project?.title ?? '…'}</span>
         <button className="btn btn-sm" onClick={toggleFullscreen}>{fullscreen ? 'Exit full screen' : 'Full screen'}</button>

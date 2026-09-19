@@ -18,11 +18,14 @@ export default defineConfig({
         theme_color: '#0a0a0d',
         background_color: '#0a0a0d',
         display: 'standalone',
+        display_override: ['window-controls-overlay', 'standalone'],
         orientation: 'portrait',
+        id: './',
+        scope: './',
         start_url: './',
         icons: [
-          { src: 'theme/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'theme/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'theme/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+          { src: 'theme/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
         ],
       },
       workbox: {
